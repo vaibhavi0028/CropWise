@@ -54,8 +54,8 @@ function Dashboard() {
       nameHi: "चना",
       currentYield: "2.5",
       potentialYield: "3.2",
-      marketPrice: "4500",
-      expectedProfit: "52000",
+      marketPrice: "77",
+      expectedProfit: "25000",
       recommendations: {
         urea: "80",
         dap: "40"
@@ -68,8 +68,8 @@ function Dashboard() {
       nameHi: "मक्का",
       currentYield: "4.8",
       potentialYield: "6.0",
-      marketPrice: "2800",
-      expectedProfit: "48000",
+      marketPrice: "80",
+      expectedProfit: "30000",
       recommendations: {
         urea: "120",
         dap: "60"
@@ -82,8 +82,8 @@ function Dashboard() {
       nameHi: "सरसों",
       currentYield: "1.8",
       potentialYield: "2.5",
-      marketPrice: "5200",
-      expectedProfit: "45000",
+      marketPrice: "60",
+      expectedProfit: "55000",
       recommendations: {
         urea: "60",
         dap: "30"
@@ -681,11 +681,11 @@ function Dashboard() {
                   </div>
                   <div className="flex justify-between">
                     <span className="font-medium">Market Price:</span>
-                    <span>₹{selectedCrop.marketPrice}/ton</span>
+                    <span>₹{selectedCrop.marketPrice}/kg</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="font-medium">Expected Profit:</span>
-                    <span>₹{selectedCrop.expectedProfit}</span>
+                    <span>₹{selectedCrop.expectedProfit}/acre</span>
                   </div>
                 </div>
                 <div className="mt-32">
