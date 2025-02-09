@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap");
+
+.font-orbitron {
+  font-family: "Orbitron", serif;
+  background:#ca0b0b;
+}
+
+@layer components {
+  .glassmorphism {
+    @apply bg-white/30 backdrop-blur-md border border-white/20 shadow-lg;
+  }
+}
