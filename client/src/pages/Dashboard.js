@@ -14,6 +14,7 @@ import {
   Droplets,
   Flame,
   Waves,
+  X,
 } from "lucide-react";
 import onSVG from "../assets/on.png";
 import offSVG from "../assets/off.png";
@@ -39,6 +40,10 @@ function Dashboard() {
     potassium: false,
     waterPump: false,
   });
+  const [notification, setNotification] = useState({
+    show: false,
+    message: "",
+  });
 
   const translations = {
     english: {
@@ -46,7 +51,7 @@ function Dashboard() {
       nav: {
         crop: "Crop",
         finance: "Finance",
-        resources: "Resources"
+        resources: "Resources",
       },
       sidebar: {
         home: "Home",
@@ -55,7 +60,7 @@ function Dashboard() {
         analytics: "Analytics",
         team: "Team",
         reports: "Reports",
-        alerts: "Alerts"
+        alerts: "Alerts",
       },
       soilHealth: {
         title: "Current Soil Health",
@@ -64,7 +69,7 @@ function Dashboard() {
         potassium: "Potassium",
         moisture: "Moisture",
         ph: "pH",
-        humidity: "Humidity"
+        humidity: "Humidity",
       },
       finance: {
         title: "Finance Details",
@@ -72,7 +77,7 @@ function Dashboard() {
         marketPrice: "Current Market Price",
         expectedProfit: "Expected Profit",
         paymentDues: "Upcoming Payment Dues",
-        loanStatus: "Loan Status"
+        loanStatus: "Loan Status",
       },
       yieldPrediction: {
         title: "Yield Prediction",
@@ -80,38 +85,38 @@ function Dashboard() {
         weatherImpact: "Weather Impact",
         harvestTime: "Expected Harvest Time",
         pestRisk: "Pest Risk",
-        diseaseRisk: "Disease Risk"
+        diseaseRisk: "Disease Risk",
       },
       weather: {
         title: "Weather",
         temperature: "Temperature",
-        rainfall: "Rainfall"
+        rainfall: "Rainfall",
       },
       bestCrops: {
         title: "Best Crop Predictions",
         season: "Season",
         avgPrice: "Avg. Price",
-        growthPeriod: "Growth Period"
+        growthPeriod: "Growth Period",
       },
       controls: {
         nitrogen: "Nitrogen",
         phosphorus: "Phosphorus",
         potassium: "Potassium",
-        pump: "Pump"
+        pump: "Pump",
       },
       best: {
         winter: "Winter",
         summer: "Summer",
         month: "Month",
-        kg: "kg"
-      }
+        kg: "kg",
+      },
     },
     hindi: {
       title: "CROPWISE",
       nav: {
         crop: "फसल",
         finance: "वित्त",
-        resources: "संसाधन"
+        resources: "संसाधन",
       },
       sidebar: {
         home: "होम",
@@ -120,7 +125,7 @@ function Dashboard() {
         analytics: "विश्लेषण",
         team: "टीम",
         reports: "रिपोर्ट",
-        alerts: "अलर्ट"
+        alerts: "अलर्ट",
       },
       soilHealth: {
         title: "वर्तमान मिट्टी स्वास्थ्य",
@@ -129,7 +134,7 @@ function Dashboard() {
         potassium: "पोटैशियम",
         moisture: "नमी",
         ph: "पीएच",
-        humidity: "आर्द्रता"
+        humidity: "आर्द्रता",
       },
       finance: {
         title: "वित्तीय विवरण",
@@ -137,7 +142,7 @@ function Dashboard() {
         marketPrice: "वर्तमान बाजार मूल्य",
         expectedProfit: "अपेक्षित लाभ",
         paymentDues: "आगामी भुगतान",
-        loanStatus: "ऋण स्थिति"
+        loanStatus: "ऋण स्थिति",
       },
       yieldPrediction: {
         title: "उपज पूर्वानुमान",
@@ -145,45 +150,65 @@ function Dashboard() {
         weatherImpact: "मौसम प्रभाव",
         harvestTime: "अपेक्षित कटाई समय",
         pestRisk: "कीट जोखिम",
-        diseaseRisk: "रोग जोखिम"
+        diseaseRisk: "रोग जोखिम",
       },
       weather: {
         title: "मौसम",
         temperature: "तापमान",
-        rainfall: "वर्षा"
+        rainfall: "वर्षा",
       },
       bestCrops: {
         title: "सर्वोत्तम फसल पूर्वानुमान",
         season: "मौसम",
         avgPrice: "औसत मूल्य",
-        growthPeriod: "विकास अवधि"
+        growthPeriod: "विकास अवधि",
       },
       controls: {
         nitrogen: "नाइट्रोजन",
         phosphorus: "फास्फोरस",
         potassium: "पोटैशियम",
-        pump: "पंप"
+        pump: "पंप",
       },
       best: {
         winter: "सर्दी",
         summer: "गर्मी",
         month: "महीना",
-        kg: "किलो"
-      }
-    }
+        kg: "किलो",
+      },
+    },
   };
 
-  const [language, setLanguage] = useState('english');
+  const [language, setLanguage] = useState("english");
   const t = translations[language];
 
   const toggleLanguage = () => {
-    setLanguage(prev => prev === 'english' ? 'hindi' : 'english');
+    setLanguage((prev) => (prev === "english" ? "hindi" : "english"));
   };
 
   const toggleState = (key) => {
-    setStates((prev) => ({ ...prev, [key]: !prev[key] }));
-  };
+    setStates((prev) => {
+      const newState = { ...prev, [key]: !prev[key] };
+      if (key === "waterPump") {
+        const isActive = newState[key];
+        const message = isActive
+          ? "Water pump has been activated"
+          : "Water pump has been deactivated";
+        const colorClass = isActive ? "text-emerald-700" : "text-red-700";
+        const bgClass = isActive ? "bg-emerald-100 border-emerald-500 " : "bg-red-100 border-red-500 ";
 
+        setNotification({ show: true, message, colorClass, bgClass });
+        setTimeout(() => {
+          setNotification({
+            show: false,
+            message: "",
+            colorClass: "",
+            bgClass: "",
+          });
+        }, 5000);
+      }
+      return newState;
+    });
+  };
   useEffect(() => {
     axios
       .get("http://localhost:5000/data")
@@ -276,14 +301,43 @@ function Dashboard() {
     bestCrops: {
       title: t.bestCrops.title,
       table: [
-        { season: t.best.winter, price: "₹50/"+t.best.kg, growth: "3 "+t.best.month },
-        { season: t.best.summer, price: "₹45/"+t.best.kg, growth: "2.5 "+t.best.month },
+        {
+          season: t.best.winter,
+          price: "₹50/" + t.best.kg,
+          growth: "3 " + t.best.month,
+        },
+        {
+          season: t.best.summer,
+          price: "₹45/" + t.best.kg,
+          growth: "2.5 " + t.best.month,
+        },
       ],
     },
   };
 
   return (
     <div className="relative min-h-screen overflow font-orbitron">
+      {notification.show && (
+        <div className="fixed top-4 right-4 z-50 animate-fade-in">
+          <div
+            className={`border-l-4 text-emerald-700 p-4 rounded shadow-lg flex items-center justify-between min-w-[300px] ${notification.bgClass}`}
+          >
+            <h3
+              className={`font-orbitron font-semibold ${notification.colorClass}`}
+            >
+              {notification.message}
+            </h3>
+            <button
+              onClick={() =>
+                setNotification({ show: false, message: "", colorClass: "" })
+              }
+              className={`ml-4 text-emerald-600 hover:text-emerald-800 transition-colors ${notification.colorClass}`}
+            >
+              <X size={20} />
+            </button>
+          </div>
+        </div>
+      )}
       <div
         className="fixed inset-0 w-full h-screen bg-cover bg-center bg-fixed z-0"
         style={{ backgroundImage: `url(${bg1})` }}
@@ -295,7 +349,9 @@ function Dashboard() {
         <nav className="flex justify-between items-center p-4 lg:px-6">
           <h1 className="text-2xl font-bold">{t.title}</h1>
           <div className="hidden md:flex gap-4">
-            <button className="glassmorphism px-6 py-2 rounded-lg">{t.nav.crop}</button>
+            <button className="glassmorphism px-6 py-2 rounded-lg">
+              {t.nav.crop}
+            </button>
             <button className="glassmorphism px-6 py-2 rounded-lg">
               {t.nav.finance}
             </button>
@@ -310,7 +366,10 @@ function Dashboard() {
             <div className="glassmorphism p-3 rounded-[50%]">
               <BarChart3 className="w-6 h-6" />
             </div>
-            <div className="glassmorphism p-3 rounded-[50%] cursor-pointer" onClick={toggleLanguage}>
+            <div
+              className="glassmorphism p-3 rounded-[50%] cursor-pointer"
+              onClick={toggleLanguage}
+            >
               <Languages className="w-6 h-6" />
             </div>
           </div>
@@ -398,7 +457,9 @@ function Dashboard() {
                   <div className="flex gap-3 h-[50%] w-[100%]">
                     <div className="flex-1 w-1/2 glassmorphism rounded-xl p-6 flex flex-col items-center justify-center">
                       <Leaf size={40} color="#7ED473" />
-                      <p className="text-lg font-semibold mt-2">{t.controls.nitrogen}</p>
+                      <p className="text-lg font-semibold mt-2">
+                        {t.controls.nitrogen}
+                      </p>
                       <button
                         onClick={() => toggleState("nitrogen")}
                         className="mt-4 px-6 py-2 rounded-lg text-white font-semibold transition-all scale-105"
@@ -413,7 +474,9 @@ function Dashboard() {
 
                     <div className="flex-1 w-1/2 glassmorphism rounded-xl p-6 flex flex-col items-center justify-center">
                       <Flame size={40} color="#FFA500" />
-                      <p className="text-lg font-semibold mt-2">{t.controls.phosphorus}</p>
+                      <p className="text-lg font-semibold mt-2">
+                        {t.controls.phosphorus}
+                      </p>
                       <button
                         onClick={() => toggleState("phosphorus")}
                         className="mt-4 px-6 py-2 rounded-lg text-white font-semibold transition-all scale-105"
@@ -430,7 +493,9 @@ function Dashboard() {
                   <div className="flex gap-3 h-[50%] w-[100%]">
                     <div className="flex-1 w-1/2 glassmorphism rounded-xl p-6 flex flex-col items-center justify-center">
                       <Droplets size={40} color="#1E90FF" />
-                      <p className="text-lg font-semibold mt-2">{t.controls.potassium}</p>
+                      <p className="text-lg font-semibold mt-2">
+                        {t.controls.potassium}
+                      </p>
                       <button
                         onClick={() => toggleState("potassium")}
                         className="mt-4 px-6 py-2 rounded-lg text-white font-semibold transition-all scale-105"
@@ -445,7 +510,9 @@ function Dashboard() {
 
                     <div className="flex-1 w-1/2 glassmorphism rounded-xl p-6 flex flex-col items-center justify-center">
                       <Waves size={40} color="#00CED1" />
-                      <p className="text-lg font-semibold mt-2">{t.controls.pump}</p>
+                      <p className="text-lg font-semibold mt-2">
+                        {t.controls.pump}
+                      </p>
                       <button
                         onClick={() => toggleState("waterPump")}
                         className="mt-4 px-6 py-2 rounded-lg text-white font-semibold transition-all scale-105"
