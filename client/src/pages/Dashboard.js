@@ -4,7 +4,7 @@ import {
   Settings,
   Sprout,
   BarChart3,
-  DollarSign,
+  Languages,
   AlertTriangle,
   Leaf,
   CloudRain,
@@ -39,6 +39,146 @@ function Dashboard() {
     potassium: false,
     waterPump: false,
   });
+
+  const translations = {
+    english: {
+      title: "CROPWISE",
+      nav: {
+        crop: "Crop",
+        finance: "Finance",
+        resources: "Resources"
+      },
+      sidebar: {
+        home: "Home",
+        settings: "Settings",
+        crops: "Crops",
+        analytics: "Analytics",
+        team: "Team",
+        reports: "Reports",
+        alerts: "Alerts"
+      },
+      soilHealth: {
+        title: "Current Soil Health",
+        nitrogen: "Nitrogen",
+        phosphorous: "Phosphorous",
+        potassium: "Potassium",
+        moisture: "Moisture",
+        ph: "pH",
+        humidity: "Humidity"
+      },
+      finance: {
+        title: "Finance Details",
+        investment: "Investment",
+        marketPrice: "Current Market Price",
+        expectedProfit: "Expected Profit",
+        paymentDues: "Upcoming Payment Dues",
+        loanStatus: "Loan Status"
+      },
+      yieldPrediction: {
+        title: "Yield Prediction",
+        predictedYield: "Predicted Yield",
+        weatherImpact: "Weather Impact",
+        harvestTime: "Expected Harvest Time",
+        pestRisk: "Pest Risk",
+        diseaseRisk: "Disease Risk"
+      },
+      weather: {
+        title: "Weather",
+        temperature: "Temperature",
+        rainfall: "Rainfall"
+      },
+      bestCrops: {
+        title: "Best Crop Predictions",
+        season: "Season",
+        avgPrice: "Avg. Price",
+        growthPeriod: "Growth Period"
+      },
+      controls: {
+        nitrogen: "Nitrogen",
+        phosphorus: "Phosphorus",
+        potassium: "Potassium",
+        pump: "Pump"
+      },
+      best: {
+        winter: "Winter",
+        summer: "Summer",
+        month: "Month",
+        kg: "kg"
+      }
+    },
+    hindi: {
+      title: "CROPWISE",
+      nav: {
+        crop: "फसल",
+        finance: "वित्त",
+        resources: "संसाधन"
+      },
+      sidebar: {
+        home: "होम",
+        settings: "सेटिंग्स",
+        crops: "फसलें",
+        analytics: "विश्लेषण",
+        team: "टीम",
+        reports: "रिपोर्ट",
+        alerts: "अलर्ट"
+      },
+      soilHealth: {
+        title: "वर्तमान मिट्टी स्वास्थ्य",
+        nitrogen: "नाइट्रोजन",
+        phosphorous: "फास्फोरस",
+        potassium: "पोटैशियम",
+        moisture: "नमी",
+        ph: "पीएच",
+        humidity: "आर्द्रता"
+      },
+      finance: {
+        title: "वित्तीय विवरण",
+        investment: "निवेश",
+        marketPrice: "वर्तमान बाजार मूल्य",
+        expectedProfit: "अपेक्षित लाभ",
+        paymentDues: "आगामी भुगतान",
+        loanStatus: "ऋण स्थिति"
+      },
+      yieldPrediction: {
+        title: "उपज पूर्वानुमान",
+        predictedYield: "अनुमानित उपज",
+        weatherImpact: "मौसम प्रभाव",
+        harvestTime: "अपेक्षित कटाई समय",
+        pestRisk: "कीट जोखिम",
+        diseaseRisk: "रोग जोखिम"
+      },
+      weather: {
+        title: "मौसम",
+        temperature: "तापमान",
+        rainfall: "वर्षा"
+      },
+      bestCrops: {
+        title: "सर्वोत्तम फसल पूर्वानुमान",
+        season: "मौसम",
+        avgPrice: "औसत मूल्य",
+        growthPeriod: "विकास अवधि"
+      },
+      controls: {
+        nitrogen: "नाइट्रोजन",
+        phosphorus: "फास्फोरस",
+        potassium: "पोटैशियम",
+        pump: "पंप"
+      },
+      best: {
+        winter: "सर्दी",
+        summer: "गर्मी",
+        month: "महीना",
+        kg: "किलो"
+      }
+    }
+  };
+
+  const [language, setLanguage] = useState('english');
+  const t = translations[language];
+
+  const toggleLanguage = () => {
+    setLanguage(prev => prev === 'english' ? 'hindi' : 'english');
+  };
 
   const toggleState = (key) => {
     setStates((prev) => ({ ...prev, [key]: !prev[key] }));
@@ -81,13 +221,13 @@ function Dashboard() {
         labels: weatherData.map((point) => point.time),
         datasets: [
           {
-            label: "Temperature (°C)",
+            label: t.weather.temperature,
             data: weatherData.map((point) => point.temp),
             borderColor: "#ca0b0b",
             fill: false,
           },
           {
-            label: "Rainfall (mm)",
+            label: t.weather.rainfall,
             data: weatherData.map((point) => point.rain),
             borderColor: "#071a60",
             fill: false,
@@ -98,46 +238,46 @@ function Dashboard() {
 
   const dashboardData = {
     soilHealth: {
-      title: "Current Soil Health",
+      title: t.soilHealth.title,
       data: {
-        Nitrogen: data.nitrogen + "%",
-        Phosphorous: data.phosphorus + "%",
-        Potassium: data.potassium + "%",
-        Moisture: data.soil_moisture + "%",
-        pH: data.pH + "%",
-        Humidity: data.humidity + "%",
+        [t.soilHealth.nitrogen]: data.nitrogen + "%",
+        [t.soilHealth.phosphorous]: data.phosphorus + "%",
+        [t.soilHealth.potassium]: data.potassium + "%",
+        [t.soilHealth.moisture]: data.soil_moisture + "%",
+        [t.soilHealth.ph]: data.pH + "%",
+        [t.soilHealth.humidity]: data.humidity + "%",
       },
     },
     finance: {
-      title: "Finance Details",
+      title: t.finance.title,
       data: {
-        Investment: "₹10000",
-        "Current Market Price": "₹2400/ton",
-        "Expected Profit": "₹16000",
-        "Upcoming Payment Dues": "₹4000",
-        "Loan Status": "Pending",
+        [t.finance.investment]: "₹10000",
+        [t.finance.marketPrice]: "₹2400/ton",
+        [t.finance.expectedProfit]: "₹16000",
+        [t.finance.paymentDues]: "₹4000",
+        [t.finance.loanStatus]: "Pending",
       },
     },
     yieldPrediction: {
-      title: "Yield Prediction",
+      title: t.yieldPrediction.title,
       data: {
-        "Predicted Yield": "1500 kg",
-        "Weather Impact": "Moderate",
-        "Expected Harvest Time": "3 months",
-        "Pest Risk": "Low",
-        "Disease Risk": "Medium",
+        [t.yieldPrediction.predictedYield]: "1500 kg",
+        [t.yieldPrediction.weatherImpact]: "Moderate",
+        [t.yieldPrediction.harvestTime]: "3 months",
+        [t.yieldPrediction.pestRisk]: "Low",
+        [t.yieldPrediction.diseaseRisk]: "Medium",
       },
     },
     weather: {
-      title: "Weather",
+      title: t.weather.title,
       temperature: "30°C",
       rainfall: "5mm",
     },
     bestCrops: {
-      title: "Best Crop Predictions",
+      title: t.bestCrops.title,
       table: [
-        { season: "Winter", price: "₹50/kg", growth: "3 Months" },
-        { season: "Summer", price: "₹45/kg", growth: "2.5 Months" },
+        { season: t.best.winter, price: "₹50/"+t.best.kg, growth: "3 "+t.best.month },
+        { season: t.best.summer, price: "₹45/"+t.best.kg, growth: "2.5 "+t.best.month },
       ],
     },
   };
@@ -153,14 +293,14 @@ function Dashboard() {
 
       <div className="relative z-10 h-screen flex flex-col">
         <nav className="flex justify-between items-center p-4 lg:px-6">
-          <h1 className="text-2xl font-bold">CROPWISE</h1>
+          <h1 className="text-2xl font-bold">{t.title}</h1>
           <div className="hidden md:flex gap-4">
-            <button className="glassmorphism px-6 py-2 rounded-lg">Crop</button>
+            <button className="glassmorphism px-6 py-2 rounded-lg">{t.nav.crop}</button>
             <button className="glassmorphism px-6 py-2 rounded-lg">
-              Finance
+              {t.nav.finance}
             </button>
             <button className="glassmorphism px-6 py-2 rounded-lg">
-              Resources
+              {t.nav.resources}
             </button>
           </div>
           <div className="flex gap-4">
@@ -170,8 +310,8 @@ function Dashboard() {
             <div className="glassmorphism p-3 rounded-[50%]">
               <BarChart3 className="w-6 h-6" />
             </div>
-            <div className="glassmorphism p-3 rounded-[50%]">
-              <DollarSign className="w-6 h-6" />
+            <div className="glassmorphism p-3 rounded-[50%] cursor-pointer" onClick={toggleLanguage}>
+              <Languages className="w-6 h-6" />
             </div>
           </div>
         </nav>
@@ -179,13 +319,13 @@ function Dashboard() {
         <div className="flex flex-1 h-[calc(100vh-5rem)] overflow-hidden">
           <aside className="w-20 h-fit flex flex-col items-center py-8 gap-8 glassmorphism rounded-3xl self-center">
             {[
-              { icon: Home, label: "Home" },
-              { icon: Settings, label: "Settings" },
-              { icon: Sprout, label: "Crops" },
-              { icon: BarChart3, label: "Analytics" },
-              { icon: Users, label: "Team" },
-              { icon: FileText, label: "Reports" },
-              { icon: AlertTriangle, label: "Alerts" },
+              { icon: Home, label: t.sidebar.home },
+              { icon: Settings, label: t.sidebar.settings },
+              { icon: Sprout, label: t.sidebar.crops },
+              { icon: BarChart3, label: t.sidebar.analytics },
+              { icon: Users, label: t.sidebar.team },
+              { icon: FileText, label: t.sidebar.reports },
+              { icon: AlertTriangle, label: t.sidebar.alerts },
             ].map((item, index) => (
               <div
                 key={index}
@@ -258,10 +398,10 @@ function Dashboard() {
                   <div className="flex gap-3 h-[50%] w-[100%]">
                     <div className="flex-1 w-1/2 glassmorphism rounded-xl p-6 flex flex-col items-center justify-center">
                       <Leaf size={40} color="#7ED473" />
-                      <p className="text-lg font-semibold mt-2">Nitrogen</p>
+                      <p className="text-lg font-semibold mt-2">{t.controls.nitrogen}</p>
                       <button
                         onClick={() => toggleState("nitrogen")}
-                        className={`mt-4 px-6 py-2 rounded-lg text-white font-semibold transition-all scale-105 `}
+                        className="mt-4 px-6 py-2 rounded-lg text-white font-semibold transition-all scale-105"
                       >
                         <img
                           src={states.nitrogen ? onSVG : offSVG}
@@ -273,10 +413,10 @@ function Dashboard() {
 
                     <div className="flex-1 w-1/2 glassmorphism rounded-xl p-6 flex flex-col items-center justify-center">
                       <Flame size={40} color="#FFA500" />
-                      <p className="text-lg font-semibold mt-2">Phosphorus</p>
+                      <p className="text-lg font-semibold mt-2">{t.controls.phosphorus}</p>
                       <button
                         onClick={() => toggleState("phosphorus")}
-                        className={`mt-4 px-6 py-2 rounded-lg text-white font-semibold transition-all scale-105 `}
+                        className="mt-4 px-6 py-2 rounded-lg text-white font-semibold transition-all scale-105"
                       >
                         <img
                           src={states.phosphorus ? onSVG : offSVG}
@@ -290,10 +430,10 @@ function Dashboard() {
                   <div className="flex gap-3 h-[50%] w-[100%]">
                     <div className="flex-1 w-1/2 glassmorphism rounded-xl p-6 flex flex-col items-center justify-center">
                       <Droplets size={40} color="#1E90FF" />
-                      <p className="text-lg font-semibold mt-2">Potassium</p>
+                      <p className="text-lg font-semibold mt-2">{t.controls.potassium}</p>
                       <button
                         onClick={() => toggleState("potassium")}
-                        className={`mt-4 px-6 py-2 rounded-lg text-white font-semibold transition-all scale-105 `}
+                        className="mt-4 px-6 py-2 rounded-lg text-white font-semibold transition-all scale-105"
                       >
                         <img
                           src={states.potassium ? onSVG : offSVG}
@@ -305,10 +445,10 @@ function Dashboard() {
 
                     <div className="flex-1 w-1/2 glassmorphism rounded-xl p-6 flex flex-col items-center justify-center">
                       <Waves size={40} color="#00CED1" />
-                      <p className="text-lg font-semibold mt-2">Pump</p>
+                      <p className="text-lg font-semibold mt-2">{t.controls.pump}</p>
                       <button
                         onClick={() => toggleState("waterPump")}
-                        className={`mt-4 px-6 py-2 rounded-lg text-white font-semibold transition-all scale-105 `}
+                        className="mt-4 px-6 py-2 rounded-lg text-white font-semibold transition-all scale-105"
                       >
                         <img
                           src={states.waterPump ? onSVG : offSVG}
@@ -353,9 +493,9 @@ function Dashboard() {
                   <table className="w-full mb-2">
                     <thead>
                       <tr className="text-left">
-                        <th className="pb-0.5">Season</th>
-                        <th className="pb-0.5">Avg. Price</th>
-                        <th className="pb-0.5">Growth Period</th>
+                        <th className="pb-0.5">{t.bestCrops.season}</th>
+                        <th className="pb-0.5">{t.bestCrops.avgPrice}</th>
+                        <th className="pb-0.5">{t.bestCrops.growthPeriod}</th>
                       </tr>
                     </thead>
                     <tbody>
