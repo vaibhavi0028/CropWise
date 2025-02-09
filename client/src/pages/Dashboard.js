@@ -44,6 +44,52 @@ function Dashboard() {
     show: false,
     message: "",
   });
+  const [selectedCrop, setSelectedCrop] = useState(null);
+
+  const cropData = [
+    {
+      id: 1,
+      image: "https://plus.unsplash.com/premium_photo-1675237624857-7d995e29897d?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8Y2hpY2twZWFzfGVufDB8fDB8fHww",
+      nameEn: "Chickpea",
+      nameHi: "चना",
+      currentYield: "2.5",
+      potentialYield: "3.2",
+      marketPrice: "4500",
+      expectedProfit: "52000",
+      recommendations: {
+        urea: "80",
+        dap: "40"
+      }
+    },
+    {
+      id: 2,
+      image: "https://plus.unsplash.com/premium_photo-1675727577107-2e1311b5a9b6?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8Q29ybnxlbnwwfHwwfHx8MA%3D%3D",
+      nameEn: "Corn",
+      nameHi: "मक्का",
+      currentYield: "4.8",
+      potentialYield: "6.0",
+      marketPrice: "2800",
+      expectedProfit: "48000",
+      recommendations: {
+        urea: "120",
+        dap: "60"
+      }
+    },
+    {
+      id: 3,
+      image: "https://plus.unsplash.com/premium_photo-1671130295236-e8afa3ac38c9?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      nameEn: "Mustard",
+      nameHi: "सरसों",
+      currentYield: "1.8",
+      potentialYield: "2.5",
+      marketPrice: "5200",
+      expectedProfit: "45000",
+      recommendations: {
+        urea: "60",
+        dap: "30"
+      }
+    }
+  ];
 
   const translations = {
     english: {
@@ -81,11 +127,11 @@ function Dashboard() {
       },
       yieldPrediction: {
         title: "Yield Prediction",
+        presentCrop: "Present Crop",
         predictedYield: "Predicted Yield",
         weatherImpact: "Weather Impact",
         harvestTime: "Expected Harvest Time",
         pestRisk: "Pest Risk",
-        diseaseRisk: "Disease Risk",
       },
       weather: {
         title: "Weather",
@@ -105,8 +151,8 @@ function Dashboard() {
         pump: "Pump",
       },
       best: {
-        winter: "Winter",
-        summer: "Summer",
+        rabi: "Rabi ",
+        kharif: "Kharif",
         month: "Month",
         kg: "kg",
       },
@@ -146,11 +192,11 @@ function Dashboard() {
       },
       yieldPrediction: {
         title: "उपज पूर्वानुमान",
+        presentCrop: "वर्तमान फसल",
         predictedYield: "अनुमानित उपज",
         weatherImpact: "मौसम प्रभाव",
         harvestTime: "अपेक्षित कटाई समय",
         pestRisk: "कीट जोखिम",
-        diseaseRisk: "रोग जोखिम",
       },
       weather: {
         title: "मौसम",
@@ -170,8 +216,8 @@ function Dashboard() {
         pump: "पंप",
       },
       best: {
-        winter: "सर्दी",
-        summer: "गर्मी",
+        rabi: "रबी",
+        kharif: "ख़रीफ़",
         month: "महीना",
         kg: "किलो",
       },
@@ -286,11 +332,11 @@ function Dashboard() {
     yieldPrediction: {
       title: t.yieldPrediction.title,
       data: {
+        [t.yieldPrediction.presentCrop]: "Wheat",
         [t.yieldPrediction.predictedYield]: "1500 kg",
         [t.yieldPrediction.weatherImpact]: "Moderate",
         [t.yieldPrediction.harvestTime]: "3 months",
         [t.yieldPrediction.pestRisk]: "Low",
-        [t.yieldPrediction.diseaseRisk]: "Medium",
       },
     },
     weather: {
@@ -302,14 +348,14 @@ function Dashboard() {
       title: t.bestCrops.title,
       table: [
         {
-          season: t.best.winter,
-          price: "₹50/" + t.best.kg,
-          growth: "3 " + t.best.month,
+          season: t.best.rabi,
+          price: "₹60-80/" + t.best.kg,
+          growth: "4-5 " + t.best.month,
         },
         {
-          season: t.best.summer,
-          price: "₹45/" + t.best.kg,
-          growth: "2.5 " + t.best.month,
+          season: t.best.kharif,
+          price: "₹20-30/" + t.best.kg,
+          growth: "3-4 " + t.best.month,
         },
       ],
     },
@@ -576,21 +622,24 @@ function Dashboard() {
                     </tbody>
                   </table>
                   <div className="flex gap-4 my-1">
-                    <img
-                      src="https://images.unsplash.com/photo-1528821128474-27f963b062bf?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80"
-                      alt="Cherry"
-                      className="w-1/3 h-20 object-cover rounded-lg"
-                    />
-                    <img
-                      src="https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80"
-                      alt="Apple"
-                      className="w-1/3 h-20 object-cover rounded-lg"
-                    />
-                    <img
-                      src="https://images.unsplash.com/photo-1595743825637-cdafc8ad4173?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80"
-                      alt="Peach"
-                      className="w-1/3 h-20 object-cover rounded-lg"
-                    />
+                  {cropData.map((crop) => (
+                      <div
+                        key={crop.id}
+                        className="relative w-1/3 h-20 group cursor-pointer"
+                        onClick={() => setSelectedCrop(crop)}
+                      >
+                        <img
+                          src={crop.image}
+                          alt={crop.nameEn}
+                          className="w-full h-full object-cover rounded-lg"
+                        />
+                        <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-60 transition-all duration-300 rounded-lg flex items-center justify-center">
+                          <p className="text-white font-semibold text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            {crop.nameEn}<br/>{crop.nameHi}
+                          </p>
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 </div>
               </div>
@@ -598,6 +647,59 @@ function Dashboard() {
           </div>
         </div>
       </div>
+      {selectedCrop && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-6 max-w-4xl w-full mx-4">
+            <div className="flex justify-end">
+              <button
+                onClick={() => setSelectedCrop(null)}
+                className="text-gray-500 hover:text-gray-700"
+              >
+                <X size={24} />
+              </button>
+            </div>
+            <div className="flex gap-6 mt-2">
+              <div className="w-1/2">
+                <img
+                  src={selectedCrop.image}
+                  alt={selectedCrop.nameEn}
+                  className="w-full h-80 object-cover rounded-lg"
+                />
+                <h3 className="text-xl font-semibold mt-2 text-center">
+                  {selectedCrop.nameEn} / {selectedCrop.nameHi}
+                </h3>
+              </div>
+              <div className="w-1/2 space-y-4">
+                <div className="space-y-2">
+                  <div className="flex justify-between">
+                    <span className="font-medium">Current Yield:</span>
+                    <span>{selectedCrop.currentYield} tons</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="font-medium">Potential Yield:</span>
+                    <span>{selectedCrop.potentialYield} tons</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="font-medium">Market Price:</span>
+                    <span>₹{selectedCrop.marketPrice}/ton</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="font-medium">Expected Profit:</span>
+                    <span>₹{selectedCrop.expectedProfit}</span>
+                  </div>
+                </div>
+                <div className="mt-32">
+                  <h4 className="font-semibold mb-2">Yield Boost Recommendations:</h4>
+                  <ul className="space-y-2">
+                    <li>Add {selectedCrop.recommendations.urea} kg Urea</li>
+                    <li>Add {selectedCrop.recommendations.dap} kg DAP</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
